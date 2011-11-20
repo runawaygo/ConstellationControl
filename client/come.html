@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Harmony</title>
+		<meta charset="utf-8"/>
+		<meta name="description" content="Procedural Drawing Tool"/>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+	</head>
+	<body>
+		<div id="wolf">Superwolf</div>
+		<script src="lib/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src=" http://tjs.sjs.sinajs.cn/open/api/js/wb.js?appkey=644354988" type="text/javascript" charset="utf-8"></script>
+		<script>
+			$('#wolf').click(function(){
+				WB2.anyWhere(function(W){
+				    // 获取评论列表
+					W.parseCMD("/statuses/comments.json", function(sResult, bStatus){
+				    	if(bStatus == true) {
+							alert(sResult);
+				    	}
+					},{userid : 12345678},{method: 'post'});
+					
+				});
+			});
+			
+			WB2.login(function(){
+				alert(WB2.checkLogin());
+				
+				
+				// WB2.anyWhere(function(W){
+				//     // 获取评论列表
+				// 	W.parseCMD("/statuses/comments.json", function(sResult, bStatus){
+				//     	if(bStatus == true) {
+				// 			alert(sResult);
+				//     	}
+				// 	},{userid : 12345678},{method: 'post'});
+				// 	
+				// });
+			//callback function
+			});
+		</script>
+	</body>
+</html>
+
+
+
+

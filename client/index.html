@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<title>Harmony</title>
+		<meta charset="utf-8"/>
+		<meta name="description" content="Procedural Drawing Tool"/>
+		<meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0; user-scalable=0;"/>
+		<link rel="stylesheet" href="/client/css/s.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<link rel="stylesheet" href="/client/css/ui-lightness/jquery-ui-1.8.12.custom.css" type="text/css" media="screen" title="no title" charset="utf-8">
+		<style>
+	        .freePosition
+	        {
+	            position: absolute;
+	        }
+	        .person
+	        {
+	            position: absolute;
+	            width: 54px;
+	            min-height: 50px;
+	            padding: 7px;
+	            background: #FC3;
+	            border: 1px solid #FD5;
+	            -moz-border-radius: 5px;
+	            -webkit-border-radius: 5px;
+	            border-radius: 5px;
+	            -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+	            -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+	            box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+	            cursor: pointer;
+	            margin-top: 10px;
+	            margin-left: 10px;
+	            display: inline-block;
+	            float: left;
+	            vertical-align: top;
+	        }
+			.container
+			{
+				/*margin:7px;*/
+			}
+	        section.mid, section.max
+	        {
+	            width: 400px;
+	             -webkit-transform:  translateZ(50px);
+	            -moz-transform: scaleX(3.16);
+	        }
+
+	        .headicon
+	        {
+	            float: right;
+
+	            -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+	            -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+	            box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+	        }
+	        .person .content
+	        {
+	            margin-top: 5px;
+	        }
+	        .person .name
+	        {
+	            margin:2px 0px 0px 3px;}
+	        .btns-panel
+	        {
+	            margin-right: -5px;
+	        }
+
+	        .icon-btn
+	        {
+	        	-moz-border-radius: 5px;
+	            -webkit-border-radius: 5px;
+	            border-radius: 5px;
+	            border:3px solid white;
+	            background-color:red;
+	            color:white;
+	            float: left;
+	            position:absolute;
+	            display: inline-block;
+	            margin-top: -5px;
+	            opacity: 0.8;
+	            height:20px;
+	            width:20px;
+	            font-size:18px;
+	            text-align:center;
+	            vertical-align: middle;
+	            line-height:14px;
+	            margin-top:-10px;
+	            margin-left:-10px;
+	        }
+
+	        .out-btn
+	        {
+	            float: right;
+	            display: inline-block;
+	            margin-top: -5px;
+	            opacity: 0.8;
+	            height:12px;
+	        }
+	        .shadow,.icon-btn
+	        {
+	            -moz-box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+	            -webkit-box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+	            box-shadow: 3px 3px 5px rgba(0, 0, 0, .2);
+	        }
+
+			#search, #resultPanel
+			{
+				float:right;
+			}
+	    </style>
+	</head>
+	<body>
+		<section id="search">
+			<input type="search" autofocus>
+		</section>
+		<section id="resultPanel">
+			<h1>PK Panel</h1>
+		</section>
+	    <section id="container">
+		</section>
+		<script src="/client/test.coffee" type="text/coffeescript"></script>				
+		<script src="/client/player.coffee" type="text/coffeescript"></script>
+		<script id="personTemplate" type="text/x-jquery-tmpl">
+	        <section class='person min'>
+				<!-- <span class="icon-btn">3</span> -->
+				<div class='container'>
+		            <section class='btns-panel' style="height:12px;">
+		                <span class="ui-icon ui-icon-close out-btn close-btn"></span>
+		                <span class="mid max ui-icon ui-icon-pin-w out-btn pin-btn"></span>
+		            </section>
+		            <section>
+		                <img class='headicon' src='${profile_image_url}'>
+		                <div class='name min'>
+		                    <strong>${screen_name}</strong>
+		                </div>
+		                <div class='title mid max'>
+		                    <strong>${screen_name}</strong>
+		                    <pre>${location} (${followers_count} - ${friends_count})</pre>
+		                    <p><small><strong>${description}</strong></small></p>
+		                </div>
+		                <div class='content max'>
+		                    ${status.text}
+		                </div>
+	           		</section>
+				</div>
+	        </section>
+	    </script>
+		<script src="/client/lib/json2.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/client/lib/jquery-1.6.2.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/client/lib/jquery-ui-1.8.16.custom.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/client/lib/jquery.tmpl.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/client/lib/underscore-1.1.6.js" type="text/javascript" charset="utf-8"></script>
+		<script src="/client/lib/backbone.js" type="text/javascript" charset="utf-8"></script>
+		<script type="text/javascript" src="/client/FollowingData.js"></script>		
+		<script type="text/javascript" src="/client/index.js"></script>
+
+		<script src="/client/lib/coffee-script.js" type="text/javascript" charset="utf-8"></script>
+	</body>
+</html>
