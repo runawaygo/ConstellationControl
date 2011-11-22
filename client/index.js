@@ -1,7 +1,7 @@
 // load all the lib scripts with urlprefix where the `weibo` directory you put into 
 $(function(){
-	//$.get('/friends',go);
-	go(data);
+	$.get('/friends',go);
+	//go(data);
 });
 
 function go(data)

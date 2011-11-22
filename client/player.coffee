@@ -11,6 +11,13 @@ DamageType =
 	hit: 'hit'
 	poison: 'poison'
 	double: 'double'
+	
+getSpecificDate = (month,date)->
+	d = new Date()
+	d.setMonth(month-1)
+	d.setDate(date)
+	d
+
 
 AttackMessageType = 
 	miss: 
@@ -30,26 +37,32 @@ AttackMessageType =
 		template:'suckBlood'
 
 class Constellation
-	constructor:(@name,@description,@skills)->
-		@skills or= []
+	constructor:(@name,@description,@beginDate,@endDate)->
+	skills:[]
+	isConstellationDate:->
+		@beginDate <= new Date() <= @endDate
+	effect:(player)->				
+		hp = player.getHp()
+		attack = player.getAttack()
+		player.set {'hp':Math.floor(hp*1.2), 'attack':Math.floor(attack*1.2)}
 	
 class Libra extends Constellation
 	constructor:->
-		super('天平座','天平座')
+		super('天平座', '天平座', getSpecificDate(9,23), getSpecificDate(10,23))
 		@skills.unshift new DoubleAttack()
 	hp:6
 	attack:0.3
 
 class Taurus extends Constellation
 	constructor:->
-		super('金牛座','金牛座')
+		super('金牛座','金牛座', getSpecificDate(4,20), getSpecificDate(5,20))
 		@skills.unshift new SuckBloodAttack()
 	hp:2
 	attack:0.6
 
 class Scorpio extends Constellation
 	constructor:->
-		super('天蝎座','天蝎座')
+		super('天蝎座','天蝎座', getSpecificDate(10,24), getSpecificDate(11,25))
 		@skills.unshift new PoisonAttack()
 	hp:3
 	attack:0.6
@@ -57,12 +70,23 @@ class Scorpio extends Constellation
 class Damage
 	constructor:(@value,@type)->
 
+class Status
+	constructor:(@name,@description,@timing)->
+	action:(player)->
+	
+class ConstellationDate extends Status
+	constructor:(@player)->
+		super '本星之月','本星之月',''
+	effect:->
+		hp = @player.getHp()
+		attack = @player.getAttack()
+		@player.set {'hp':Math.floor(hp*1.2), 'attack':Math.floor(attack*1.2)}
+
 class Skill
 	constructor: (@name,@description,@type,@timing)->
 	action:(attackPlayer,defensePlayer,attackResult)->
 	rate:1
 	check:->Math.random()<=@rate
-	setOwner:(@owner)->
 	
 class AttackSkill extends Skill
 	constructor: (@name,@description,@timing)->
@@ -185,13 +209,15 @@ class Fight extends Backbone.Model
 class Player extends Backbone.Model
 	constructor: (personInfo,@constellation)->
 		super personInfo
-		power = @get('power')
+		@power = @get('power')
 		@name = @get('name')
+		@set {'hp':Math.floor(@power * @constellation.hp),'attack':Math.floor(@power*@constellation.attack)}
 		
-		@set {'hp':power * @constellation.hp,'attack':power*@constellation.attack}
-		skill.setOwner(this) for skill in @constellation.skills
+		if @constellation.isConstellationDate()
+			@set {'isConstellationDate':true}
+			@constellation.effect(this)
 	defaults: ->
-	 	{'power':100}
+	 	{'power':100,'isConstellationDate':false}
 	getSkillsByType:(type,timing)->
 		skill for skill in @constellation.skills.concat(@skills) when skill.type is type and skill.timing is timing
 	status:->
@@ -200,13 +226,17 @@ class Player extends Backbone.Model
 		if @get('hp') <=0 then true else false
 	setHp:(value)->
 		value  or= @get('hp')
-		@set {'hp':value}
+		@set {'hp':Math.floor(value)}
 		this
 	getHp:->
 		@get('hp')
 	addHp:(value)->
-		@set {'hp':@get('hp')+value}
+		@set {'hp':Math.floor(@get('hp')+value)}
 		this
+	resetHp:->
+		@set {'hp':Math.floor(@power * @constellation.hp)}
+	getAttack:->
+		@get 'attack'
 	skills:[
 		new Hit()
 	]
@@ -222,9 +252,9 @@ handle = (data)->
 		fight.begin()
 		
 	mock()
-	mock() for i in [0...30]
+#	mock() for i in [0...30]
 
 $(->
-#	$.get '/friends',handle
-	handle(data)
+	$.get '/friends',handle
+#	handle(data)
 )

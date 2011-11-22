@@ -48,7 +48,7 @@ app.get('/gotooauth', function(req,res){
 		console.log(access_secret);
 
 		outputAccess(req);
-		res.redirect('/timeline');
+		res.redirect('/');
 	});
 });
 
@@ -70,6 +70,17 @@ app.get('/timeline', function(req, res) {
 		res.end(JSON.stringify(data));
 	});
 });
+
+app.get('/verify',function(req,res){
+	var sinaoauth = new sinaOAuth(req.cookies.access_key, req.cookies.access_secret);
+	sinaoauth.verify({},function(err,data){
+		if (err) return console.log(err);
+		console.log(data);
+		res.contentType('application/json');
+		res.end(JSON.stringify(data));		
+	});
+});
+
 
 app.get('/friends',function(req,res){
 	var sinaoauth = new sinaOAuth(req.cookies.access_key, req.cookies.access_secret);
